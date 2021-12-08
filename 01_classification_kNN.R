@@ -17,7 +17,7 @@ pred <- knn(training_data, testing_data, training_labels)
 # household survey data -------------------------------------------------------------------
 
 hhdata <- read_csv("data/hhfile_prepped_normalized.csv") %>% 
-  select(-c("upm", "nvivi", "nhoga", "fex", "facpob", "area", "ipcm", 
+  select(-c("upm", "nvivi", "nhoga", "fex", "facpob", "area", "ipcm", "lnipcm",
             "linea_pobreza_total", "linea_pobreza_extrema", "extpov")) %>% 
   select(year, totpov, everything())
 
@@ -40,7 +40,10 @@ testing_labels <-
   filter(year != 2018) %>% 
   pull(totpov)
 
-pred <- knn(training_data, testing_data, training_labels, k = 200)
+pred <- knn(training_data, testing_data, training_labels, k = 100)
+
+pred_votes <- knn(training_data, testing_data, training_labels, k = 3, prob = TRUE)
+pred_prob <- attr(pred_votes, "prob")
 
 table(pred, testing_labels)
 mean(pred == testing_labels)
