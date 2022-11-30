@@ -62,4 +62,4 @@ cv_eval_lm <- cv_prep_lm %>% #return vector instead of a list
 
 mean(cv_eval_lm$validate_mae)
 
-
+#test note
